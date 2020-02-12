@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
+	<label>Comment for Order-Positions</label>
+	<label lang="de">Kommentare bei Bestellpositionen</label>
+	<version>2.2.13</version>
+	<copyright>Corporate Happiness GmbH</copyright>
+	<license>proprietary</license>
+	<link>https://www.corporate-happiness.de/</link>
+	<author>Corporate Happiness GmbH</author>
+	<compatibility minVersion="5.5.1" />
+</plugin>

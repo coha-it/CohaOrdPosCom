@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/5.2/engine/Shopware/Components/Plugin/schema/config.xsd">
+
+	<elements>
+		<element scope="shop" required="false" type="boolean">
+			<name>show</name>
+			<label lang="de">Aktiv:</label>
+			<label lang="en">Active:</label>
+			<value>true</value>
+		</element>
+
+		<element scope="shop" required="false" type="boolean">
+			<name>showPositionCommentOnDetail</name>
+			<label lang="de">Auf Detailseite anzeigen:</label>
+			<label lang="en">Show on detail page:</label>
+			<value>false</value>
+		</element>
+
+		<element scope="shop" required="false" type="boolean">
+			<name>showOnlyOnSpecificProducts</name>
+			<label lang="de">Nur bei bestimmten Produkten anzeigen:</label>
+			<label lang="en">Show only for specific products:</label>
+			<value>false</value>
+			<description>Bei "Nein" wird der Kommentar bei allen Artikel gezeigt!</description>
+		</element>
+
+		<element scope="shop" required="false" type="boolean">
+			<name>commentRequired</name>
+			<label lang="de">Kommentar auf Detailseite erforderlich:</label>
+			<label lang="en">Comment on detail page required:</label>
+			<value>false</value>
+			<description>Wenn dies aktiv ist, müssen Kunden einen Kommentar angeben, um diesen Artikel auf der Detailseite in den Warenkorb zu legen. Dies funktioniert nur, wenn die Option "Auf Detailseite anzeigen" aktiv ist.</description>
+		</element>
+
+		<element scope="shop" required="false" type="boolean">
+			<name>commentAsTextarea</name>
+			<label lang="de">Als Textarea anzeigen:</label>
+			<label lang="en">Show as Textarea:</label>
+			<value>false</value>
+		</element>
+
+		<element scope="shop" required="false" type="boolean">
+			<name>positionCommentInBasketName</name>
+			<label lang="de">Bestellpositionskommentar in Warenkorbposition speichern:</label>
+			<label lang="en">order position comment in basket position:</label>
+			<value>false</value>
+		</element>
+
+	</elements>
+</config>
