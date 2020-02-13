@@ -50,7 +50,7 @@
 				url: me.opts.url,
 				data: 'basketId=' + me.opts.basketId + '&comment=' + me.$el.val(),
 				success: function(result) {
-					console.log('Updated s_order_basket_attributes #' + me.opts.basketId +  ': ' + me.$el.val());
+					// console.log('Updated s_order_basket_attributes #' + me.opts.basketId +  ': ' + me.$el.val());
 				},
 			});
 		},
