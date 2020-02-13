@@ -1,5 +1,88 @@
-var copci_eTrueInput = $('.coha-ord-pos-com input[name="coha_ord_pos_com"]');
-var copci_placeholder = copci_eTrueInput.attr('placeholder');
+var copci_eTrueInput    = $('.coha-ord-pos-com input[name="coha_ord_pos_com"]');
+var copci_placeholder   = copci_eTrueInput.attr('placeholder');
+var copci_inner         = $('.buybox--form .coha-ord-pos-com-inner');
+var copci_innerWithQty  = $('.buybox--form .coha-ord-pos-com-inner.by-qty');
+
+// If jQuery
+if(jQuery && $) {
+
+
+    // Coha Order Pos Com Wrapper exists with By QTY
+    if(copci_innerWithQty.length) {
+        // Init on Change Select Input
+        copci_initQtySelectChanges();
+
+        // INit on Change Faker input
+        copci_initFakeInputChange();
+    }
+
+    // If Checkout inner
+    var eCheckoutProducts = $('.is--ctl-checkout .row--product');
+    var eCheckoutInnerWithQty = eCheckoutProducts.find('.coha-ord-pos-com-inner.by-qty');
+    if(eCheckoutInnerWithQty.length) {
+        // Init the Product Rows
+        copci_initProductRows(eCheckoutProducts);
+
+        // On Change checkout-fake-input
+        copci_initCheckoutFakeInputs();
+
+    }
+}
+
+
+// Functions
+function copci_initProductRows(eProducts) {
+    $(eProducts).each(function (i, e) {
+        var eWrapper = $(e);
+        var eInner = eWrapper.find('.coha-ord-pos-com-inner.by-qty');
+        var eOrigInput = eInner.find('input[data-coha-ord-pos-com="true"]');
+        var eOrigPlaceholder = eOrigInput.attr('placeholder');
+        var sTexts = eOrigInput.val();
+        var aTexts = sTexts.split(', ');
+        console.log(aTexts);
+        var eQty = eWrapper.find('select[name="sQuantity"]');
+        var sQty = eQty.val();
+        var iQty = parseInt(sQty);
+        console.log('iQty', iQty);
+
+        for (var j = 0; j < iQty; j++) {
+            var sText = aTexts[j];
+            console.log('set ', sText);
+            eInner.append(copci_createFakeInput(eOrigPlaceholder));
+            eInner.find('.fake-input').eq(j).val(sText);
+        }
+    });
+}
+
+function copci_initQtySelectChanges() {
+    var qtySelect = $('.quantity--select');
+    qtySelect.on('change', function() {
+        copci_onQtyChange(copci_innerWithQty, qtySelect);
+    });
+    copci_onQtyChange(copci_innerWithQty, qtySelect);
+}
+
+function copci_initFakeInputChange() {
+    $(document).on('change input click', '.fake-input', function() {
+        copci_onFakeInputChange(copci_eTrueInput, $('.fake-input:not(.disabled)'));
+    });
+}
+
+function copci_initCheckoutFakeInputs() {
+    $(document).on('change input click keydown', '.is--ctl-checkout .fake-input', function(event) {
+        var eParent = $(this).parent('div');
+        var eOriginalInput = eParent.find('[data-coha-ord-pos-com="true"]');
+        var eFakeInputs = eParent.find('.fake-input');
+        copci_onFakeInputChange(eOriginalInput, eFakeInputs);
+
+        // On Enter?
+        if (event.which == 13 && !event.shiftKey) {
+            eOriginalInput.keydown();
+            eOriginalInput.change();
+            eOriginalInput.keyup();
+        }
+    });
+}
 
 function copci_onQtyChange(inner, qtySelect) {
     // Qty Defin
@@ -23,6 +106,12 @@ function copci_onQtyChange(inner, qtySelect) {
     copci_onFakeInputChange(copci_eTrueInput, $('.fake-input:not(.disabled)'));
 }
 
+
+function copci_checkInput(e) {
+    $(e).val($(e).val().replace(/[\,\|\&]/gi, ''));
+    return $(e).val();
+}
+
 function copci_createFakeInput(placeholder) {
     return '<input type="text" class="fake-input" placeholder="'+placeholder+'" />';
 }
@@ -40,7 +129,7 @@ function copci_onFakeInputChange(eOrigInput, eFakeInputs) {
         // If Input is Filled
         if(sText && sText != '') {
             // Check all specific disallowed Characters
-            $(this).val($(this).val().replace(/[\,\|\&]/gi, ''));
+            sText = copci_checkInput(this);
 
             // Push Content
             aTexts.push(sText);
@@ -49,68 +138,4 @@ function copci_onFakeInputChange(eOrigInput, eFakeInputs) {
 
     var sTexts = aTexts.join('\,\ ');
     eOrigInput.val(sTexts);
-}
-
-if(jQuery && $) {
-    var inner = $('.buybox--form .coha-ord-pos-com-inner');
-    var innerWithQty = $('.buybox--form .coha-ord-pos-com-inner.by-qty');
-
-    // Coha Order Pos Com Wrapper exists with By QTY
-    if(innerWithQty.length) {
-
-        // Init on Change Select Input
-        var qtySelect = $('.quantity--select');
-        qtySelect.on('change', function() {
-            copci_onQtyChange(innerWithQty, qtySelect);
-        });
-        copci_onQtyChange(innerWithQty, qtySelect);
-
-        // INit on Change Faker input
-        $(document).on('change input click', '.fake-input', function() {
-            copci_onFakeInputChange(copci_eTrueInput, $('.fake-input:not(.disabled)'));
-        });
-    }
-
-    // If Checkout inner
-    var eCheckoutProducts = $('.is--ctl-checkout .row--product');
-    var eCheckoutInnerWithQty = $('.is--ctl-checkout .coha-ord-pos-com-inner.by-qty');
-    if(eCheckoutInnerWithQty.length) {
-        // Init
-        $(eCheckoutProducts).each(function (i, e) {
-            var eWrapper = $(e);
-            var eInner = eWrapper.find('.coha-ord-pos-com-inner.by-qty');
-            var eOrigInput = eInner.find('input[data-coha-ord-pos-com="true"]');
-            var eOrigPlaceholder = eOrigInput.attr('placeholder');
-            var sTexts = eOrigInput.val();
-            var aTexts = sTexts.split(', ');
-            console.log(aTexts);
-            var eQty = eWrapper.find('select[name="sQuantity"]');
-            var sQty = eQty.val();
-            var iQty = parseInt(sQty);
-            console.log('iQty', iQty);
-
-            for (var j = 0; j < iQty; j++) {
-                var sText = aTexts[j];
-                console.log('set ', sText);
-                eInner.append(copci_createFakeInput(eOrigPlaceholder));
-                eInner.find('.fake-input').eq(j).val(sText);
-            }
-        });
-
-        // On Change checkout-fake-input
-        $(document).on('change input click keydown', '.is--ctl-checkout .fake-input', function(event) {
-            var eParent = $(this).parent('div');
-            var eOriginalInput = eParent.find('[data-coha-ord-pos-com="true"]');
-            var eFakeInputs = eParent.find('.fake-input');
-            copci_onFakeInputChange(eOriginalInput, eFakeInputs);
-
-            // On Enter?
-            if (event.which == 13 && !event.shiftKey) {
-                eOriginalInput.keydown();
-                eOriginalInput.change();
-                eOriginalInput.keyup();
-            }
-        });
-
-    }
 }
