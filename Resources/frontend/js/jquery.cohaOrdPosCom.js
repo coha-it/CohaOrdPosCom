@@ -15,12 +15,12 @@
 		 * @method init
 		 */
 		init: function () {
-			var me = this,
-				$el = me.$el,
-				opts = me.opts;
+			var _that = this,
+				$el = _that.$el,
+				opts = _that.opts;
 
-			me.applyDataAttributes();
-			me.registerListeners();
+			_that.applyDataAttributes();
+			_that.registerListeners();
 		},
 
 		/**
@@ -30,35 +30,35 @@
 		 * @method registerListeners
 		 */
 		registerListeners: function () {
-			var me = this;
+			var _that = this;
 
-			me._on(me.$el, 'keyup', $.proxy(me.onKeyUp, me));
+			_that._on(_that.$el, 'keyup', $.proxy(_that.onKeyUp, _that));
 		},
 
 		onKeyUp: function(event) {
-			var me = this;
+			var _that = this;
 
 			event.preventDefault();
-			me.sendForm();
+			_that.sendForm();
 		},
 
 		sendForm: function() {
-			var me = this;
+			var _that = this;
 
 			$.ajax({
 				type: 'post',
-				url: me.opts.url,
-				data: 'basketId=' + me.opts.basketId + '&comment=' + me.$el.val(),
+				url: _that.opts.url,
+				data: 'basketId=' + _that.opts.basketId + '&comment=' + _that.$el.val(),
 				success: function(result) {
-					// console.log('Updated s_order_basket_attributes #' + me.opts.basketId +  ': ' + me.$el.val());
+					console.log('Send Ajax & Update the s_order_basket_attributes with key:' + _that.opts.basketId +  ' => value:' + _that.$el.val());
 				},
 			});
 		},
 
 		destroy: function () {
-			var me = this;
+			var _that = this;
 
-			me._destroy();
+			_that._destroy();
 		}
 	});
 })(jQuery);

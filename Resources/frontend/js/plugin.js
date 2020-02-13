@@ -1,9 +1,7 @@
 $.subscribe('plugin/swStorageField/setFieldValueFromStorage.cohaOrdPosCom', function() {
-	var me = arguments[1];
-
-	var value = me.storage.getItem(me.storageKey);
-
+	var _that = arguments[1];
+	var value = _that.storage.getItem(_that.storageKey);
 	if(value === null) {
-		$(me.$el.attr('data-selector')).val(me.$el.val());
+		$(_that.$el.attr('data-selector')).val(_that.$el.val());
 	}
 });

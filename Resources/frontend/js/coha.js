@@ -39,15 +39,12 @@ function copci_initProductRows(eProducts) {
         var eOrigPlaceholder = eOrigInput.attr('placeholder');
         var sTexts = eOrigInput.val();
         var aTexts = sTexts.split(', ');
-        console.log(aTexts);
         var eQty = eWrapper.find('select[name="sQuantity"]');
         var sQty = eQty.val();
         var iQty = parseInt(sQty);
-        console.log('iQty', iQty);
 
         for (var j = 0; j < iQty; j++) {
             var sText = aTexts[j];
-            console.log('set ', sText);
             eInner.append(copci_createFakeInput(eOrigPlaceholder));
             eInner.find('.fake-input').eq(j).val(sText);
         }
