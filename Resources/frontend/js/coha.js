@@ -19,9 +19,7 @@ if(jQuery && $) {
     // If Checkout inner
     var eCheckoutProducts = $('.is--ctl-checkout .row--product');
     var eCheckoutInnerWithQty = eCheckoutProducts.find('.coha-ord-pos-com-inner.by-qty');
-
-    // Init the Product Rows
-    copci_initProductRows(eCheckoutProducts);
+    copci_initProductRows(eCheckoutProducts); // Init the Product Rows
 
     // On Change checkout-fake-input
     copci_initCheckoutFakeInputs();
@@ -35,7 +33,7 @@ function copci_initProductRows(eProducts) {
         var eInner = eWrapper.find('.coha-ord-pos-com-inner.by-qty');
 
         // Only if eInner exists
-        if(eInner.length > 0) {
+        if(eInner.length > 0 && !eInner.hasClass('init')) {
             var eOrigInput = eInner.find('input[data-coha-ord-pos-com="true"]');
             var eOrigPlaceholder = eOrigInput.attr('placeholder');
             var sTexts = eOrigInput.val();
@@ -50,6 +48,8 @@ function copci_initProductRows(eProducts) {
                 eInner.find('.fake-input').eq(j).val(sText);
             }
         }
+
+        eInner.addClass('init');
     });
 }
 
