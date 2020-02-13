@@ -1,12 +1,17 @@
-.buybox--form {
-    .coha-ord-pos-com {
-        label {
-            font-weight: bold;
-            display: block;
-        }
+.coha-ord-pos-com-inner {
+    label {
+        font-weight: bold;
+        display: block;
+    }
 
-        input {
-            .unitize(margin-bottom, 10);
+    input {
+        .unitize(margin-bottom, 10);
+    }
+    &.by-qty {
+        input[name="coha_ord_pos_com"],
+        input[data-coha-ord-pos-com="true"] {
+            // opacity: .4;
+            display: none;
         }
     }
 }

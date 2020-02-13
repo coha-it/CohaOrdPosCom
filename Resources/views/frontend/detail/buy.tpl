@@ -11,14 +11,31 @@
 					{if $sArticle.coha_ord_pos_com_text}
 						{$sArticle.coha_ord_pos_com_text}
 					{else}
-					{s name="frontend/plugins/cohaordposcom/comment_pretext" namespace="frontend/plugins/cohaordposcom"}Kommentar zur Position:{/s}
+						{s name="frontend/plugins/cohaordposcom/comment_pretext" namespace="frontend/plugins/cohaordposcom"}Kommentar zur Position:{/s}
 					{/if}
 				</label>
-				{if {config name="commentAsTextarea" namespace="CohaOrdPosCom"} != true}
-				<input type="text" name="coha_ord_pos_com" value="" {if {config namespace="CohaOrdPosCom" name="commentRequired"} == 1}required="required"{/if}	/>
-				{else}
-					<textarea name="coha_ord_pos_com" value="" {if {config namespace="CohaOrdPosCom" name="commentRequired"} == 1}required="required"{/if}></textarea>
-				{/if}
+				<div class="coha-ord-pos-com-inner{if $sArticle.coha_ord_pos_com_by_qty} by-qty{/if}">
+					{if {config name="commentAsTextarea" namespace="CohaOrdPosCom"} != true}
+					  <input 
+							type="text" 
+							name="coha_ord_pos_com" 
+							value="" 
+							{if {config namespace="CohaOrdPosCom" name="commentRequired"} == 1}
+							required="required"
+							{/if}
+							placeholder="{$sArticle.coha_ord_pos_com_placeholder}"
+						/>
+					{else}
+						<textarea 
+							name="coha_ord_pos_com" 
+							value="" 
+							{if {config namespace="CohaOrdPosCom" name="commentRequired"} == 1}
+							required="required"
+							placeholder="{$sArticle.coha_ord_pos_com_placeholder}"
+							{/if}
+						></textarea>
+					{/if}
+				</div>
 			</div>
 
 		{/if}

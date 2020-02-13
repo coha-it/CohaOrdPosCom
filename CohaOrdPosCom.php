@@ -35,9 +35,21 @@ class CohaOrdPosCom extends Plugin {
             'Shopware_Modules_Basket_AddArticle_Start' => 'addArticle',
 
             // service
-            'Enlight_Bootstrap_AfterInitResource_shopware_storefront.list_product_service' => 'decorateShopwareStorefrontListProductService'
+            'Enlight_Bootstrap_AfterInitResource_shopware_storefront.list_product_service' => 'decorateShopwareStorefrontListProductService',
+
+            // Add JS Files
+            'Theme_Compiler_Collect_Plugin_Javascript' => 'onCollectJavascriptFiles',
 		];
-	}
+    }
+    
+    public function onCollectJavascriptFiles()
+    {
+        $jsFiles = [
+            // Coha: Custom JS
+            $this->getPath() . '/Resources/frontend/js/coha.js',
+        ];
+        return new ArrayCollection($jsFiles);
+    }
 
     /**
      * @param EventArgs $args
