@@ -8,7 +8,7 @@ if(jQuery && $) {
 
 
     // Coha Order Pos Com Wrapper exists with By QTY
-    if(copci_innerWithQty.length) {
+    if(copci_innerWithQty.length > 0) {
         // Init on Change Select Input
         copci_initQtySelectChanges();
 
@@ -19,14 +19,12 @@ if(jQuery && $) {
     // If Checkout inner
     var eCheckoutProducts = $('.is--ctl-checkout .row--product');
     var eCheckoutInnerWithQty = eCheckoutProducts.find('.coha-ord-pos-com-inner.by-qty');
-    if(eCheckoutInnerWithQty.length) {
-        // Init the Product Rows
-        copci_initProductRows(eCheckoutProducts);
 
-        // On Change checkout-fake-input
-        copci_initCheckoutFakeInputs();
+    // Init the Product Rows
+    copci_initProductRows(eCheckoutProducts);
 
-    }
+    // On Change checkout-fake-input
+    copci_initCheckoutFakeInputs();
 }
 
 
@@ -35,18 +33,22 @@ function copci_initProductRows(eProducts) {
     $(eProducts).each(function (i, e) {
         var eWrapper = $(e);
         var eInner = eWrapper.find('.coha-ord-pos-com-inner.by-qty');
-        var eOrigInput = eInner.find('input[data-coha-ord-pos-com="true"]');
-        var eOrigPlaceholder = eOrigInput.attr('placeholder');
-        var sTexts = eOrigInput.val();
-        var aTexts = sTexts.split(', ');
-        var eQty = eWrapper.find('select[name="sQuantity"]');
-        var sQty = eQty.val();
-        var iQty = parseInt(sQty);
 
-        for (var j = 0; j < iQty; j++) {
-            var sText = aTexts[j];
-            eInner.append(copci_createFakeInput(eOrigPlaceholder));
-            eInner.find('.fake-input').eq(j).val(sText);
+        // Only if eInner exists
+        if(eInner.length > 0) {
+            var eOrigInput = eInner.find('input[data-coha-ord-pos-com="true"]');
+            var eOrigPlaceholder = eOrigInput.attr('placeholder');
+            var sTexts = eOrigInput.val();
+            var aTexts = sTexts.split(', ');
+            var eQty = eWrapper.find('select[name="sQuantity"]');
+            var sQty = eQty.val();
+            var iQty = parseInt(sQty);
+
+            for (var j = 0; j < iQty; j++) {
+                var sText = aTexts[j];
+                eInner.append(copci_createFakeInput(eOrigPlaceholder));
+                eInner.find('.fake-input').eq(j).val(sText);
+            }
         }
     });
 }
