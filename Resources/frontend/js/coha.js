@@ -1,11 +1,28 @@
-var copci_eTrueInput    = $('.coha-ord-pos-com input[name="coha_ord_pos_com"]');
-var copci_placeholder   = copci_eTrueInput.attr('placeholder');
-var copci_inner         = $('.buybox--form .coha-ord-pos-com-inner');
-var copci_innerWithQty  = $('.buybox--form .coha-ord-pos-com-inner.by-qty');
+var copci_eTrueInput;
+var copci_placeholder;
+var copci_inner;
+var copci_innerWithQty;
 
 // If jQuery
 if(jQuery && $) {
+    copci_init();
 
+    $(document).bind("ajaxSend", function() {
+        // You should use "**ajaxStop**" instead of "ajaxComplete" if there are more
+        // ongoing requests which are not completed yet
+    }).bind("ajaxStop", function() {
+        copci_init();
+    });
+}
+
+function copci_init() {
+
+    $('.coha-ord-pos-com-inner.by-qty').removeClass('init');
+
+    copci_eTrueInput    = $('.coha-ord-pos-com input[name="coha_ord_pos_com"]');
+    copci_placeholder   = copci_eTrueInput.attr('placeholder');
+    copci_inner         = $('.buybox--form .coha-ord-pos-com-inner');
+    copci_innerWithQty  = $('.buybox--form .coha-ord-pos-com-inner.by-qty');
 
     // Coha Order Pos Com Wrapper exists with By QTY
     if(copci_innerWithQty.length > 0) {
@@ -94,7 +111,7 @@ function copci_onQtyChange(inner, qtySelect) {
     for (var i = 0; i < qty; i++) {
         // Try to find Field
         var eField = inner.find('.fake-input').eq(i);
-        
+
         if(eField.length) { // Select existign Fields
             eField.removeClass('disabled').show();
         } else { // Create Feild
