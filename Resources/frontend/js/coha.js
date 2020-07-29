@@ -34,9 +34,12 @@ function copci_init() {
     }
 
     // If Checkout inner
-    var eCheckoutProducts = $('.is--ctl-checkout .row--product');
-    var eCheckoutInnerWithQty = eCheckoutProducts.find('.coha-ord-pos-com-inner.by-qty');
-    copci_initProductRows(eCheckoutProducts); // Init the Product Rows
+    if ($('body').hasClass('is--ctl-checkout')) {
+
+        var eCheckoutProducts = $('.is--ctl-checkout .row--product');
+        var eCheckoutInnerWithQty = eCheckoutProducts.find('.coha-ord-pos-com-inner.by-qty');
+        copci_initProductRows(eCheckoutProducts); // Init the Product Rows    
+    }
 
     // On Change checkout-fake-input
     copci_initCheckoutFakeInputs();
@@ -61,8 +64,14 @@ function copci_initProductRows(eProducts) {
 
             for (var j = 0; j < iQty; j++) {
                 var sText = aTexts[j];
-                eInner.append(copci_createFakeInput(eOrigPlaceholder));
-                eInner.find('.fake-input').eq(j).val(sText);
+
+                // If doesnt exist:
+                if (!eInner.find('.fake-input').eq(j).length)
+                {
+                    eInner.append(copci_createFakeInput(eOrigPlaceholder));
+                    eInner.find('.fake-input').eq(j).val(sText);
+                }
+
             }
         }
 
@@ -114,8 +123,8 @@ function copci_onQtyChange(inner, qtySelect) {
 
         if(eField.length) { // Select existign Fields
             eField.removeClass('disabled').show();
-        } else { // Create Feild
-            inner.append(copci_createFakeInput(copci_placeholder));
+        } else { // Create Field
+            // inner.append(copci_createFakeInput(copci_placeholder));
         }
     }
 
