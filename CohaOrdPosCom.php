@@ -96,7 +96,7 @@ class CohaOrdPosCom extends Plugin {
             $inBasketQb->select('SUM(sob.quantity)')
                 ->from('s_order_basket', 'sob')
                 ->where('sob.sessionID = :sessionId')
-                ->setParameter('sessionId', Shopware()->Session()->offsetGet('sessionId'))
+                ->setParameter('sessionId', $this->container->get('session')->offsetGet('sessionId'))
                 ->andWhere('sob.ordernumber = :ordernumber')
                 ->setParameter('ordernumber', $ordernumber)
                 ->groupBy('sob.ordernumber')
@@ -131,8 +131,8 @@ class CohaOrdPosCom extends Plugin {
                          'currencyFactor' => ':currencyFactor'
                      ]);
 
-        $queryBuilder->setParameter('sessionID', $this->container->get('Session')->get('sessionId'));
-        $queryBuilder->setParameter('userID', $this->container->get('Session')->get('sUserId') || 0);
+        $queryBuilder->setParameter('sessionID', $this->container->get('session')->get('sessionId'));
+        $queryBuilder->setParameter('userID', $this->container->get('session')->get('sUserId') || 0);
 
         if(Shopware()->Config()->getByNamespace('CohaOrdPosCom', 'positionCommentInBasketName')) {
             $queryBuilder->setParameter('articlename', $article->getName() . ' [' . $comment . '] ' . $this->getAdditionaltext($article));
@@ -152,7 +152,7 @@ class CohaOrdPosCom extends Plugin {
             $queryBuilder->setParameter('netprice', $article->getVariantPrice()->getCalculatedPrice());
         }
 
-        $queryBuilder->setParameter('tax_rate', $article->getTax());
+        $queryBuilder->setParameter('tax_rate', $article->getTax()->getTax());
         $queryBuilder->setParameter('datum', date("Y-m-d H:i:s"));
         // modus 0 is a normal article
         $queryBuilder->setParameter('modus', 0);
@@ -413,7 +413,7 @@ class CohaOrdPosCom extends Plugin {
 			array(
 				$comment,
 				$basketID,
-				Shopware()->Session()->get("sessionId")
+				$this->container->get('session')->get('sessionId')
 			)
 		);
 
@@ -446,7 +446,7 @@ class CohaOrdPosCom extends Plugin {
 			array(
 				$comment,
 				$ordernumber,
-				Shopware()->Session()->get("sessionId")
+				$this->container->get('session')->get('sessionId')
 			)
 		);
 
@@ -473,7 +473,7 @@ class CohaOrdPosCom extends Plugin {
 		$result = Shopware()->Db()->fetchAll(
 			$sql,
 			array(
-				Shopware()->Session()->get("sessionId")
+			    $this->container->get('session')->get('sessionId')
 			)
 		);
 

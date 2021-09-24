@@ -65,7 +65,7 @@ class CheckoutInstockInfo implements SubscriberInterface {
             $inBasketQb->select('SUM(sob.quantity)')
                        ->from('s_order_basket', 'sob')
                        ->where('sob.sessionID = :sessionId')
-                       ->setParameter('sessionId', Shopware()->Session()->offsetGet('sessionId'))
+                       ->setParameter('sessionId', $this->container->get('session')->get('sessionId'))
                        ->andWhere('sob.ordernumber = :ordernumber')
                        ->setParameter('ordernumber', $ordernumber)
                        ->groupBy('sob.ordernumber')
